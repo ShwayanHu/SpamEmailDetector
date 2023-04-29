@@ -1,0 +1,9 @@
+LICENSE.txt
+README.md
+setup.py
+Globals/GlobalFunctions.py
+Globals/__init__.py
+SpamEmailDetector.egg-info/PKG-INFO
+SpamEmailDetector.egg-info/SOURCES.txt
+SpamEmailDetector.egg-info/dependency_links.txt
+SpamEmailDetector.egg-info/top_level.txt
