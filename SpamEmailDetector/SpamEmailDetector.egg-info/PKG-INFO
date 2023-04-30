@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: SpamEmailDetector
-Version: 1.0.0
+Version: 1.0.1
 Summary: This is a package for detecting spam emails and normal emails. Codes included will continuesly listen to the provided email address, and will return message when a new email is received
 Home-page: https://github.com/NathanHuXy/SpamEmailDetector
 Author: Xueyan Hu

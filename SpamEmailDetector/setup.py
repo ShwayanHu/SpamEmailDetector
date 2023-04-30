@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="SpamEmailDetector",  # 用自己的名替换其中的YOUR_USERNAME_
-    version="1.0.0",  # 包版本号，便于维护版本
+    version="1.0.1",  # 包版本号，便于维护版本
     author="Xueyan Hu",  # 作者，可以写自己的姓名
     author_email="xueyanhu1231@163.com",  # 作者联系方式，可写自己的邮箱地址
     description="This is a package for detecting spam emails and normal emails. Codes included will continuesly listen to the provided email address, and will return message when a new email is received",  # 包的简述

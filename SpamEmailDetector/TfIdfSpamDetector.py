@@ -22,6 +22,7 @@ class TfIdfSpamDetector(BOWSpamDetector):
                                                                 [1]*len(self.normalEmails)+[0]*len(self.spamEmails),\
                                                                 test_size = 0.33,\
                                                                 random_state = randomSeed)
+            # use TFIDF to train the data
             vectorizer = TfidfVectorizer(min_df=1,use_idf=True,ngram_range=ngram_range,tokenizer=jieba.lcut)
             # Vectorize training emails
             transformedTrainingSet = vectorizer.fit_transform(self.X_train)
@@ -50,7 +51,7 @@ class TfIdfSpamDetector(BOWSpamDetector):
         '''
         This method has no relationship with the class itself. No additional attributes are added to `self`
         '''
-        if tagAsModelofClass==False:
+        if tagAsModelofClass==False: # training result will not be tagged as belonging to class
             naiveBayesModel=MultinomialNB(alpha=alpha)
             naiveBayesModel.fit(X_train,y_train)
             predictedLabels = naiveBayesModel.predict(X_test)

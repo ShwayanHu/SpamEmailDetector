@@ -19,6 +19,7 @@ import joblib
 
 class BOWSpamDetector:
     def __init__(self,normalTextFilePATH:str,spamTextFilePATH:str,stopWordsTextFilePATH:str):
+        '''Initialize all files'''
         self.normalTextFilePATH = normalTextFilePATH
         self.spamTextFilePATH = spamTextFilePATH
         self.stopWordsTextFilePATH=stopWordsTextFilePATH
@@ -27,7 +28,6 @@ class BOWSpamDetector:
             lines = file.readlines()
             file.close()
             return lines
-
         # self.normalEmails=[''.join(re.findall('[\u4e00-\u9fa5]',i)) for i in readTXTFile(self.normalTextFilePATH)]
         # self.spamEmails = [''.join(re.findall('[\u4e00-\u9fa5]',i)) for i in readTXTFile(self.spamTextFilePATH)]
         self.normalEmails = readTXTFile(self.normalTextFilePATH)
@@ -83,7 +83,7 @@ class BOWSpamDetector:
         '''
         This method has no relationship with the class itself. No additional attributes are added to `self`
         '''
-        if tagAsModelofClass==False:
+        if tagAsModelofClass==False: # don't train the Naive Bayes Model for the class (not inplace)
             naiveBayesModel=MultinomialNB(alpha=alpha)
             naiveBayesModel.fit(X_train,y_train)
             predictedLabels = naiveBayesModel.predict(X_test)
@@ -108,6 +108,7 @@ class BOWSpamDetector:
         plt.savefig(os.path.join(outputPATH,'{}ROCcurve.jpg'.format(self.__class__.__name__)))
 
     def gridSearchParams(self,showPlot:bool,paramTup=[i/100 for i in range(0,110,10)],testTimes=10,outputPATH='./OutputResults'):
+        '''grid search all available parameters, and save the result as figure.'''
         testJournal={
             'testId':[],
             'alpha':[],
@@ -141,6 +142,8 @@ class BOWSpamDetector:
         return self.gridSearchJournal.iloc[:,1:]
 
     def trainFinalModel(self,alpha):
+        '''Use the determined parameter to train the Naive Bayes Model for the class'''
+        # privatize the transformer for raw text
         countVectorizer = CountVectorizer(tokenizer=jieba.lcut, stop_words=self.stopWords, ngram_range=(1, 1))
         self.countVectorizerModel = countVectorizer.fit(self.normalEmails + self.spamEmails)
         # joblib.dump(countVectorizerModel,'OutputResults/BOWCountVectorModel.m')
@@ -148,6 +151,7 @@ class BOWSpamDetector:
         #     pickle.dump(countVectorizerModel,f)
         transformedX = self.countVectorizerModel.transform(self.normalEmails + self.spamEmails)
         y = [1]*len(self.normalEmails)+[0]*len(self.spamEmails)
+        # privatize the Naive Bayes Model trained
         self.naiveBayesModel = MultinomialNB(alpha=alpha)
         self.naiveBayesModel.fit(transformedX,y)
 
